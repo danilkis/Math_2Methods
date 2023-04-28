@@ -1,7 +1,7 @@
+import kotlin.math.roundToInt
+
 data class CardItem(val title: String, val description: String)
-
 class Iteration(private val coefficients: Array<Array<Double>>, private val freeNumbers: Array<Double>) {
-
     fun solve(): List<CardItem> {
         val result = mutableListOf<CardItem>()
         var x = arrayOf(0.0, 0.0, 0.0)
@@ -24,10 +24,14 @@ class Iteration(private val coefficients: Array<Array<Double>>, private val free
             }
 
             val error = calculateError(previousX, x)
-            result.add(CardItem("Итерация $iteration", "Ошибка: $error"))
+            result.add(CardItem("Итерация $iteration", "Ответы: ${(x[0] * 100.0).roundToInt() / 100.0}, ${(x[1] * 100.0).roundToInt() / 100.0}, ${(x[2] * 100.0).roundToInt() / 100.0}, Ошибка: $error"))
             iteration++
-        } while (error > epsilon)
-
+        } while (error > epsilon && iteration < MAX_ITERATIONS)
+        if (iteration >= MAX_ITERATIONS) {
+            result.add(CardItem("Ошибка", "Метод не сошелся за $MAX_ITERATIONS итераций"))
+        } else {
+            result.add(CardItem("Решение", "X: ${(x[0] * 100.0).roundToInt() / 100.0}, ${(x[1] * 100.0).roundToInt() / 100.0}, ${(x[2] * 100.0).roundToInt() / 100.0}"))
+        }
         return result
     }
 
@@ -40,5 +44,8 @@ class Iteration(private val coefficients: Array<Array<Double>>, private val free
             }
         }
         return maxError
+    }
+    companion object {
+        private const val MAX_ITERATIONS = 1000
     }
 }

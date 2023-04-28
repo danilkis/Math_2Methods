@@ -11,6 +11,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlin.properties.Delegates
 
 @ExperimentalMaterial3Api
@@ -26,9 +27,9 @@ fun solveEquationSystem(coefficients: Array<Array<Double>>, freeNumbers: Array<D
 @OptIn(ExperimentalMaterial3Api::class)
 fun main() = application {
 // Data for RecyclerView 1
-    var recyclerView1Data = remember { mutableStateListOf<CardItem>() }
+    var recyclerView1Data = listOf<CardItem>(CardItem("Пока тут пусто", "Пока тут пусто"))
 // Data for RecyclerView 2
-    var recyclerView2Data = remember { mutableStateListOf<CardItem>() }
+    var recyclerView2Data = listOf<CardItem>(CardItem("Пока тут пусто", "Пока тут пусто"))
     var a11 by remember { mutableStateOf(TextFieldValue("")) }
     var a12 by remember { mutableStateOf(TextFieldValue("")) }
     var a13 by remember { mutableStateOf(TextFieldValue("")) }
@@ -177,16 +178,19 @@ fun main() = application {
                     Spacer(modifier = Modifier.height(16.dp))
                     // Dropdown menu
                     // Display selected option
-                    var coefficients = arrayOf(
-                        arrayOf(a11.text.toDouble(), a12.text.toDouble(), a13.text.toDouble()),
-                        arrayOf(a21.text.toDouble(), a22.text.toDouble(), a23.text.toDouble()),
-                        arrayOf(a31.text.toDouble(), a32.text.toDouble(), a33.text.toDouble())
-                    )
-                    var free = arrayOf(free1.text.toDouble(), free2.text.toDouble(), free3.text.toDouble())
-                    Spacer(modifier = Modifier.height(16.dp))
                     // Button to display count
                     Button(
-                        onClick = { recyclerView1Data = solveEquationSystem(coefficients, free) },
+                        onClick = {
+                            var coefficients = arrayOf(
+                                arrayOf(a11.text.toDouble(), a12.text.toDouble(), a13.text.toDouble()),
+                                arrayOf(a21.text.toDouble(), a22.text.toDouble(), a23.text.toDouble()),
+                                arrayOf(a31.text.toDouble(), a32.text.toDouble(), a33.text.toDouble())
+                            )
+                            var free = arrayOf(free1.text.toDouble(), free2.text.toDouble(), free3.text.toDouble())
+                            recyclerView1Data = solveEquationSystem(coefficients, free)
+                            val solver = Seidel(coefficients, free)
+                            recyclerView2Data = solver.solve()
+                        },
                         modifier = Modifier.padding(16.dp)
                     ) {
                         Text("Решить")
