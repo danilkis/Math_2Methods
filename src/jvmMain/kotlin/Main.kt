@@ -1,5 +1,9 @@
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.ui.Alignment
@@ -48,7 +52,6 @@ fun main() = application {
         state = rememberWindowState(width = 1000.dp, height = 1000.dp)
     ) {
         MaterialTheme {
-
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -195,57 +198,66 @@ fun main() = application {
                     ) {
                         Text("Решить")
                     }
-                    LazyColumn {
-                        item {
-                            Text(
-                                text = "Итераций",
-                                style = MaterialTheme.typography.h6,
-                                modifier = Modifier.padding(8.dp)
-                            )
-                        }
-                        items(recyclerView1Data.size) { index ->
-                            val CardItem = recyclerView1Data[index]
-                            Card(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .fillMaxWidth()
-                            ) {
-                                Text(
-                                    text = CardItem.title,
-                                    style = MaterialTheme.typography.h6,
-                                    modifier = Modifier.padding(8.dp)
-                                )
-                                Text(
-                                    text = CardItem.description,
-                                    style = MaterialTheme.typography.body2,
-                                    modifier = Modifier.padding(8.dp)
-                                )
+                    LazyRow (modifier = Modifier.align(Alignment.CenterHorizontally))
+                    {
+                        item{
+                            LazyColumn (modifier = Modifier.widthIn(min = 100.dp, max = 500.dp)) {
+                                item {
+                                    Text(
+                                        text = "Итераций",
+                                        style = MaterialTheme.typography.h6,
+                                        modifier = Modifier.padding(8.dp)
+                                    )
+                                }
+                                items(recyclerView1Data.size) { index ->
+                                    val CardItem = recyclerView1Data[index]
+                                    Card(
+                                        modifier = Modifier
+                                            .padding(8.dp)
+                                            .fillMaxWidth()
+                                    ) {
+                                        Text(
+                                            text = CardItem.title,
+                                            style = MaterialTheme.typography.h6,
+                                            modifier = Modifier.padding(8.dp)
+                                        )
+                                        Text(
+                                            text = CardItem.description,
+                                            style = MaterialTheme.typography.body2,
+                                            modifier = Modifier.padding(8.dp)
+                                        )
+                                    }
+                                }
                             }
                         }
-                        item {
-                            Text(
-                                text = "Зейделя",
-                                style = MaterialTheme.typography.h6,
-                                modifier = Modifier.padding(8.dp)
-                            )
-                        }
-                        items(recyclerView2Data.size) { index ->
-                            val CardItem = recyclerView2Data[index]
-                            Card(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .fillMaxWidth()
-                            ) {
-                                Text(
-                                    text = CardItem.title,
-                                    style = MaterialTheme.typography.h6,
-                                    modifier = Modifier.padding(8.dp)
-                                )
-                                Text(
-                                    text = CardItem.description,
-                                    style = MaterialTheme.typography.body2,
-                                    modifier = Modifier.padding(8.dp)
-                                )
+                        item{
+                            LazyColumn (modifier = Modifier.widthIn(min = 100.dp, max = 500.dp)) {
+                                item {
+                                    Text(
+                                        text = "Зейделя",
+                                        style = MaterialTheme.typography.h6,
+                                        modifier = Modifier.padding(8.dp)
+                                    )
+                                }
+                                items(recyclerView2Data.size) { index ->
+                                    val CardItem = recyclerView2Data[index]
+                                    Card(
+                                        modifier = Modifier
+                                            .padding(8.dp)
+                                            .fillMaxWidth()
+                                    ) {
+                                        Text(
+                                            text = CardItem.title,
+                                            style = MaterialTheme.typography.h6,
+                                            modifier = Modifier.padding(8.dp)
+                                        )
+                                        Text(
+                                            text = CardItem.description,
+                                            style = MaterialTheme.typography.body2,
+                                            modifier = Modifier.padding(8.dp)
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
